@@ -7,45 +7,22 @@
       <div class="app-logo">taska.</div>
       <div class="header-user">
         <span>{{ username }}</span>
-        <form action="{{ url_for('logout') }}" method="GET">
-          <button class="btn btn-ghost" type="submit">Sign out</button>
-        </form>
+        <a href="{{ url_for('logout') }}"><button class="btn btn-ghost">Sign out</button></a>
       </div>
     </div>
   </div>
 </header>
 <main class="main">
   <div class="container">
-    {% set total = todos|length %}
-    {% set done_count = todos|selectattr('done')|list|length %}
-    {% set pending = total - done_count %}
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-number accent">{{ total }}</div>
-        <div class="stat-label">Total</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">{{ pending }}</div>
-        <div class="stat-label">Pending</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number success">{{ done_count }}</div>
-        <div class="stat-label">Done</div>
-      </div>
-    </div>
     <form class="add-form" action="{{ url_for('add_todo') }}" method="POST">
       <input class="add-input" type="text" name="title" placeholder="Add a new task..." required autocomplete="off">
       <button class="add-btn" type="submit">+</button>
     </form>
-    {% set pending_todos = todos|rejectattr('done')|list %}
-    {% set done_todos = todos|selectattr('done')|list %}
-    {% if pending_todos %}
-    <div class="section-label">To do — {{ pending_todos|length }}</div>
     <div class="todo-list">
-      {% for todo in pending_todos %}
-      <div class="todo-item">
+      {% for todo in todos %}
+      <div class="todo-item {% if todo['done'] %}done{% endif %}">
         <form class="todo-check-form" action="{{ url_for('toggle_todo', todo_id=todo['id']) }}" method="POST">
-          <button class="todo-check" type="submit"></button>
+          <button class="todo-check" type="submit">{% if todo['done'] %}✓{% endif %}</button>
         </form>
         <span class="todo-title">{{ todo['title'] }}</span>
         <form action="{{ url_for('delete_todo', todo_id=todo['id']) }}" method="POST">
@@ -53,30 +30,13 @@
         </form>
       </div>
       {% endfor %}
-    </div>
-    {% endif %}
-    {% if done_todos %}
-    <div class="section-label">Completed — {{ done_todos|length }}</div>
-    <div class="todo-list">
-      {% for todo in done_todos %}
-      <div class="todo-item done">
-        <form class="todo-check-form" action="{{ url_for('toggle_todo', todo_id=todo['id']) }}" method="POST">
-          <button class="todo-check" type="submit">✓</button>
-        </form>
-        <span class="todo-title">{{ todo['title'] }}</span>
-        <form action="{{ url_for('delete_todo', todo_id=todo['id']) }}" method="POST">
-          <button class="btn-danger" type="submit">✕</button>
-        </form>
+      {% if not todos %}
+      <div class="empty-state">
+        <div class="empty-icon">✦</div>
+        <p>Nothing here yet. Add your first task above.</p>
       </div>
-      {% endfor %}
+      {% endif %}
     </div>
-    {% endif %}
-    {% if total == 0 %}
-    <div class="empty-state">
-      <div class="empty-icon">✦</div>
-      <p>Nothing here yet. Add your first task above.</p>
-    </div>
-    {% endif %}
   </div>
 </main>
 {% endblock %}
