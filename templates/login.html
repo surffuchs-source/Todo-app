@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Sign in — Taska{% endblock %}
+{% block body %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">taska.</div>
+    <div class="auth-tagline">Your tasks, simply done.</div>
+    {% if error %}
+    <div class="error-msg">{{ error }}</div>
+    {% endif %}
+    <form method="POST">
+      <div class="field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="your username" required autofocus>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+    <div class="auth-footer">
+      No account? <a href="{{ url_for('register') }}">Create one</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
