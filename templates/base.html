@@ -13,7 +13,13 @@
       --accent-hover: #4a3de0; --success: #22c55e; --danger: #ef4444;
       --border: #e8e8f0; --radius: 12px; --radius-sm: 8px;
     }
-    body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); min-height: 100vh; line-height: 1.5; }
+    [data-theme="dark"] {
+      --ink: #e8e8f5; --ink-soft: #a0a0c8; --ink-muted: #5a5a88;
+      --surface: #0d0d1a; --card: #16162a; --border: #2a2a45;
+    }
+    [data-theme="dark"] .field input:focus { background: var(--surface); }
+    [data-theme="dark"] .error-msg { background: #2d1515; border-color: #5c2020; color: #f87171; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); min-height: 100vh; line-height: 1.5; transition: background 0.2s, color 0.2s; }
     a { color: var(--accent); text-decoration: none; }
     .container { max-width: 560px; margin: 0 auto; padding: 0 20px; }
     .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
@@ -22,7 +28,7 @@
     .auth-tagline { color: var(--ink-muted); font-size: 14px; margin-bottom: 32px; }
     .field { margin-bottom: 16px; }
     .field label { display: block; font-size: 13px; font-weight: 500; color: var(--ink-soft); margin-bottom: 6px; text-transform: uppercase; }
-    .field input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; color: var(--ink); background: var(--surface); outline: none; }
+    .field input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; color: var(--ink); background: var(--surface); outline: none; transition: background 0.2s, border-color 0.2s; }
     .field input:focus { border-color: var(--accent); background: white; }
     .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 20px; border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; border: none; }
     .btn-primary { background: var(--accent); color: white; width: 100%; }
@@ -32,7 +38,7 @@
     .btn-danger:hover { color: var(--danger); }
     .error-msg { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 14px; margin-bottom: 20px; }
     .auth-footer { margin-top: 24px; text-align: center; font-size: 14px; color: var(--ink-muted); }
-    .app-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 0; position: sticky; top: 0; z-index: 10; }
+    .app-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 0; position: sticky; top: 0; z-index: 10; transition: background 0.2s, border-color 0.2s; }
     .header-inner { display: flex; align-items: center; justify-content: space-between; }
     .app-logo { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; color: var(--accent); }
     .header-user { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--ink-muted); }
@@ -44,12 +50,12 @@
     .stat-number.success { color: var(--success); }
     .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-muted); }
     .add-form { display: flex; gap: 10px; margin-bottom: 24px; }
-    .add-input { flex: 1; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; color: var(--ink); background: var(--card); outline: none; }
+    .add-input { flex: 1; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 15px; color: var(--ink); background: var(--card); outline: none; transition: background 0.2s, border-color 0.2s; }
     .add-input::placeholder { color: var(--ink-muted); }
     .add-btn { background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); padding: 13px 20px; font-size: 20px; cursor: pointer; }
     .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-muted); margin-bottom: 10px; }
     .todo-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
-    .todo-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+    .todo-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 12px; transition: background 0.2s; }
     .todo-item.done { opacity: 0.55; background: var(--surface); }
     .todo-check-form { display: contents; }
     .todo-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: transparent; cursor: pointer; flex-shrink: 0; font-size: 12px; font-family: inherit; }
@@ -59,7 +65,35 @@
     .todo-item.done .todo-title { text-decoration: line-through; color: var(--ink-muted); }
     .empty-state { text-align: center; padding: 48px 20px; color: var(--ink-muted); }
     .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+    .theme-toggle { position: fixed; bottom: 24px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: var(--card); border: 1.5px solid var(--border); cursor: pointer; font-size: 17px; display: flex; align-items: center; justify-content: center; z-index: 100; transition: background 0.2s, border-color 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    .theme-toggle:hover { border-color: var(--accent); }
   </style>
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
-<body>{% block body %}{% endblock %}</body>
+<body>
+{% block body %}{% endblock %}
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      btn.textContent = theme === 'dark' ? '☀' : '☽';
+    }
+    applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
+    btn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  })();
+</script>
+</body>
 </html>
